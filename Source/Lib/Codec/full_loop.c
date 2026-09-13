@@ -1076,7 +1076,8 @@ static void svt_av1_optimize_b(PictureControlSet* pcs, ModeDecisionContext* ctx,
         }
     }
     if (light_rdoq) {
-        rweight = 10;
+        sharpness = 1;
+        rweight = 5;
     }
 
     const int64_t  rdmult = (((((int64_t)lambda * plane_rd_mult[is_inter][plane_type]) * rweight) / 100) + 2) >> rshift;
