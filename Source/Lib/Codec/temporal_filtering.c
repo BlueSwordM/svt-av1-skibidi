@@ -2686,9 +2686,10 @@ static EbErrorType produce_temporally_filtered_pic(PictureParentControlSet** pcs
                                (input_picture_ptr_central->border >> ss_x)),
     };
     int decay_control[MAX_PLANES];
-
-    if (scs->vq_ctrls.sharpness_ctrls.tf && centre_pcs->is_noise_level && scs->calculate_variance &&
-        centre_pcs->pic_avg_variance < VQ_PIC_AVG_VARIANCE_TH) {
+    // For tune VQ and alt-SSIM tuning when tune SSIM is active, force the lowest level of decay control
+    if ((scs->vq_ctrls.sharpness_ctrls.tf && centre_pcs->is_noise_level && scs->calculate_variance &&
+        centre_pcs->pic_avg_variance < VQ_PIC_AVG_VARIANCE_TH) || scs->static_config.tune == TUNE_VQ ||
+        (scs->static_config.alt_ssim_tuning && scs->static_config.tune == TUNE_SSIM)) {
         decay_control[PLANE_Y] = 1;
         decay_control[PLANE_U] = 1;
         decay_control[PLANE_V] = 1;
