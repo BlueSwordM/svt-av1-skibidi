@@ -219,6 +219,7 @@
 #define TF_STRENGTH_FILTER_TOKEN "--tf-strength"
 #define SHARPNESS_TOKEN "--sharpness"
 #define VARIANCE_BOOST_CURVE_TOKEN "--variance-boost-curve"
+#define DARK_BOOST_STRENGTH_TOKEN "--dark-boost-strength"
 #define LUMINANCE_QP_BIAS_TOKEN "--luminance-qp-bias"
 #define LOSSLESS_TOKEN "--lossless"
 #define AVIF_TOKEN "--avif"
@@ -1170,6 +1171,8 @@ ConfigDescription config_entry_psychovisual[] = {
     {VARIANCE_BOOST_STRENGTH_TOKEN, "Variance Boost strength, default is 2 [1-4]"},
     {VARIANCE_OCTILE_TOKEN, "Octile for Variance Boost, default is 5 [1-8]"},
     {VARIANCE_BOOST_CURVE_TOKEN, "Curve for Variance Boost, default is 0 [0-3]"},
+    //Dark boost for variance boost (no lightness yet)
+    {DARK_BOOST_STRENGTH_TOKEN, "Dark boost strength for dark, low-contrast superblocks, default is 0 [0-4]"},
     // QP scale compress
     {QP_SCALE_COMPRESS_STRENGTH_TOKEN, "QP scale compress strength, default is 1.0 [0.0-8.0]"},
     // Adaptive film grain
@@ -1423,6 +1426,8 @@ ConfigEntry config_entry[] = {
     {VARIANCE_BOOST_STRENGTH_TOKEN, "VarianceBoostStrength", set_cfg_generic_token},
     {VARIANCE_OCTILE_TOKEN, "VarianceOctile", set_cfg_generic_token},
     {VARIANCE_BOOST_CURVE_TOKEN, "VarianceBoostCurve", set_cfg_generic_token},
+    //Dark boost for variance boost (no lightness yet)
+    {DARK_BOOST_STRENGTH_TOKEN, "DarkBoostStrength", set_cfg_generic_token},
 
     // TF Strength
     {TF_STRENGTH_FILTER_TOKEN, "TemporalFilteringStrength", set_cfg_generic_token},

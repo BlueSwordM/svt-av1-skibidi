@@ -969,6 +969,11 @@ EbErrorType svt_av1_verify_settings(SequenceControlSet* scs) {
         return_error = EB_ErrorBadParameter;
     }
 
+    if (config->dark_boost_strength > 4) {
+        SVT_ERROR("Dark boost strength must be between 0 and 4\n");
+        return_error = EB_ErrorBadParameter;
+    }
+
     if (config->tf_strength > 4) {
         SVT_ERROR("Temporal filtering strength must be between 0 and 4\n");
         return_error = EB_ErrorBadParameter;
@@ -1234,6 +1239,7 @@ EbErrorType svt_av1_set_default_params(EbSvtAv1EncConfiguration* config_ptr) {
     config_ptr->variance_octile                   = 5;
     config_ptr->tf_strength                       = 1;
     config_ptr->variance_boost_curve              = 0;
+    config_ptr->dark_boost_strength               = 0;
     config_ptr->luminance_qp_bias                 = 0;
     config_ptr->sharpness                         = 1;
     config_ptr->lossless                          = false;
@@ -1501,11 +1507,13 @@ void svt_av1_print_lib_params(SequenceControlSet* scs) {
                          config->aq_mode,
                          config->enable_variance_boost);
             } else {
-                SVT_INFO("SVT [config]: AQ mode / Variance Boost strength / octile / curve \t\t: %d / %d / %d / %d\n",
-                         config->aq_mode,
-                         config->variance_boost_strength,
-                         config->variance_octile,
-                         config->variance_boost_curve);
+                SVT_INFO(
+                    "SVT [config]: AQ mode / VB strength / octile / curve / dark boost \t: %d / %d / %d / %d / %d\n",
+                    config->aq_mode,
+                    config->variance_boost_strength,
+                    config->variance_octile,
+                    config->variance_boost_curve,
+                    config->dark_boost_strength);
             }
         }
 
@@ -2824,6 +2832,7 @@ EB_API EbErrorType svt_av1_enc_parse_parameter(EbSvtAv1EncConfiguration* config_
         {"variance-boost-strength", &config_struct->variance_boost_strength},
         {"variance-octile", &config_struct->variance_octile},
         {"variance-boost-curve", &config_struct->variance_boost_curve},
+        {"dark-boost-strength", &config_struct->dark_boost_strength},
         {"fast-decode", &config_struct->fast_decode},
         {"luminance-qp-bias", &config_struct->luminance_qp_bias},
         {"enable-tf", &config_struct->enable_tf},

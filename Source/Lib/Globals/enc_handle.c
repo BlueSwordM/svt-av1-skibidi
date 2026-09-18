@@ -4205,6 +4205,10 @@ static void set_param_based_on_input(SequenceControlSet* scs) {
             "Aggressive Variance Boost strength used. This is a curve that's only useful under specific situations. "
             "Use with caution!\n");
     }
+    if (scs->static_config.dark_boost_strength && !scs->static_config.enable_variance_boost) {
+        scs->static_config.dark_boost_strength = 0;
+        SVT_WARN("Dark boost requires Variance Boost, disabling dark boost\n");
+    }
     if (scs->static_config.enable_daala >= 1 && scs->static_config.cdef_level != 0) {
         if (scs->static_config.alt_cdef) {
             SVT_WARN("Daala CDEF is enabled; alt-cdef will be disabled.\n");
@@ -4989,6 +4993,8 @@ static void copy_api_from_app(SequenceControlSet* scs, EbSvtAv1EncConfiguration*
     scs->static_config.variance_octile = config_struct->variance_octile;
 #endif
     scs->static_config.variance_boost_curve = config_struct->variance_boost_curve;
+    //Dark VB, so lightness yet
+    scs->static_config.dark_boost_strength = config_struct->dark_boost_strength;
 
     // Temporal filtering strength
     scs->static_config.tf_strength = config_struct->tf_strength;
